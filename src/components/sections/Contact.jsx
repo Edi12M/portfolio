@@ -33,16 +33,31 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus(null);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": "contact",
+          ...formData,
+        }).toString(),
+      });
 
-    setSubmitStatus("success");
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+    }
+
     setIsSubmitting(false);
-    setFormData({ name: "", email: "", message: "" });
-
-    // Reset status after 3 seconds
-    setTimeout(() => setSubmitStatus(null), 3000);
+    // Reset status after 5 seconds
+    setTimeout(() => setSubmitStatus(null), 5000);
   };
 
   const contactInfo = [
@@ -177,7 +192,20 @@ const Contact = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <form onSubmit={handleSubmit} className="card">
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
+              className="card"
+            >
+              <input type="hidden" name="form-name" value="contact" />
+              <p className="hidden">
+                <label>
+                  Don't fill this out: <input name="bot-field" />
+                </label>
+              </p>
               <h3 className="text-xl font-display font-semibold text-white mb-6">
                 Send a Message
               </h3>
@@ -261,6 +289,15 @@ const Contact = () => {
                     animate={{ opacity: 1, y: 0 }}
                   >
                     Message sent successfully! I'll get back to you soon.
+                  </motion.p>
+                )}
+                {submitStatus === "error" && (
+                  <motion.p
+                    className="text-center text-red-400 text-sm"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    Something went wrong. Please try again or email me directly.
                   </motion.p>
                 )}
               </div>
