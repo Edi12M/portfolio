@@ -1,83 +1,63 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FiSend,
-  FiMail,
-  FiMapPin,
-  FiGithub,
-  FiLinkedin,
-  FiArrowUpRight,
-} from "react-icons/fi";
+import { FiMail, FiGithub, FiLinkedin, FiArrowRight, FiCoffee, FiMessageCircle } from "react-icons/fi";
 import SectionWrapper from "../ui/SectionWrapper";
-import Button from "../ui/Button";
 import { useInView } from "../../hooks/useAnimations";
-import { PERSONAL_INFO, SOCIAL_LINKS } from "../../constants/data";
+import { PERSONAL_INFO } from "../../constants/data";
 
 const Contact = () => {
   const [ref, isInView] = useInView({ threshold: 0.1 });
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          "form-name": "contact",
-          ...formData,
-        }).toString(),
-      });
-
-      if (response.ok) {
-        setSubmitStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        setSubmitStatus("error");
-      }
-    } catch (error) {
-      setSubmitStatus("error");
-    }
-
-    setIsSubmitting(false);
-    // Reset status after 5 seconds
-    setTimeout(() => setSubmitStatus(null), 5000);
-  };
-
-  const contactInfo = [
+  const contactMethods = [
     {
       icon: FiMail,
-      label: "Email",
+      title: "Email Me",
+      description: "Drop me an email anytime",
       value: PERSONAL_INFO.email,
       href: `mailto:${PERSONAL_INFO.email}`,
+      color: "purple",
     },
     {
-      icon: FiMapPin,
-      label: "Location",
-      value: "Available Worldwide",
-      href: null,
+      icon: FiLinkedin,
+      title: "LinkedIn",
+      description: "Let's connect professionally",
+      value: "Connect with me",
+      href: PERSONAL_INFO.linkedin,
+      color: "cyan",
+    },
+    {
+      icon: FiGithub,
+      title: "GitHub",
+      description: "Check out my projects",
+      value: "View my code",
+      href: PERSONAL_INFO.github,
+      color: "pink",
     },
   ];
 
+  const colorClasses = {
+    purple: {
+      bg: "bg-accent-purple/20",
+      border: "hover:border-accent-purple/60",
+      text: "text-accent-purple",
+      glow: "group-hover:shadow-accent-purple/20",
+    },
+    cyan: {
+      bg: "bg-accent-cyan/20",
+      border: "hover:border-accent-cyan/60",
+      text: "text-accent-cyan",
+      glow: "group-hover:shadow-accent-cyan/20",
+    },
+    pink: {
+      bg: "bg-accent-pink/20",
+      border: "hover:border-accent-pink/60",
+      text: "text-accent-pink",
+      glow: "group-hover:shadow-accent-pink/20",
+    },
+  };
+
   return (
     <SectionWrapper id="contact">
-      <div className="max-w-6xl mx-auto" ref={ref}>
+      <div className="max-w-4xl mx-auto" ref={ref}>
         {/* Section Header */}
         <motion.div
           className="text-center mb-16"
@@ -98,212 +78,99 @@ const Contact = () => {
             <span className="gradient-text">Connect</span>
           </h2>
           <p className="section-subtitle mx-auto mt-4">
-            I'm currently looking for internship and junior developer
-            opportunities. Feel free to reach out!
+            I'm currently looking for internship and junior developer opportunities.
+            Feel free to reach out!
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Left Column - Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h3 className="text-2xl font-display font-semibold text-white mb-6">
-              Get in Touch
-            </h3>
-            <p className="text-dark-400 mb-8 leading-relaxed">
-              Whether you have a project in mind, want to discuss opportunities,
-              or just want to say hello, I'd love to hear from you.
-            </p>
-
-            {/* Contact Details */}
-            <div className="space-y-4 mb-10">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center gap-4 group"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.4 + index * 0.1 }}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-dark-800/80 flex items-center justify-center text-dark-400 group-hover:text-accent-purple group-hover:bg-accent-purple/20 transition-all duration-300">
-                    <info.icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-dark-500">{info.label}</p>
-                    {info.href ? (
-                      <a
-                        href={info.href}
-                        className="text-white hover:text-accent-purple transition-colors"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <p className="text-white">{info.value}</p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <p className="text-sm text-dark-500 mb-4">Find me on</p>
-              <div className="flex gap-3">
-                {SOCIAL_LINKS.map((link, index) => (
-                  <motion.a
-                    key={link.name}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-xl glass flex items-center justify-center text-dark-400 hover:text-white hover:border-accent-purple/50 transition-all duration-300"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    whileHover={{ scale: 1.1, y: -3 }}
-                    whileTap={{ scale: 0.9 }}
-                    aria-label={link.name}
-                  >
-                    <link.icon className="w-5 h-5" />
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-
-            {/* Decorative Element */}
+        {/* Main CTA Card */}
+        <motion.div
+          className="card text-center mb-12 relative overflow-hidden"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/10 via-transparent to-accent-cyan/10" />
+          
+          <div className="relative z-10">
             <motion.div
-              className="hidden lg:block mt-12 p-6 rounded-2xl glass-light"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.8 }}
+              className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-accent-purple to-accent-cyan flex items-center justify-center"
+              initial={{ scale: 0 }}
+              animate={isInView ? { scale: 1 } : {}}
+              transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
             >
-              <p className="text-dark-400 text-sm italic">
-                "The best way to predict the future is to create it."
-              </p>
-              <p className="text-dark-500 text-xs mt-2">— Alan Kay</p>
+              <FiMessageCircle className="w-10 h-10 text-white" />
             </motion.div>
-          </motion.div>
-
-          {/* Right Column - Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <form
-              name="contact"
-              method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
-              onSubmit={handleSubmit}
-              className="card"
+            
+            <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-4">
+              Have a project in mind?
+            </h3>
+            <p className="text-dark-400 max-w-lg mx-auto mb-8">
+              I'm always excited to work on new challenges. Whether it's an internship,
+              a junior position, or a collaboration opportunity — let's talk!
+            </p>
+            
+            <motion.a
+              href={`mailto:${PERSONAL_INFO.email}`}
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-accent-purple to-accent-cyan hover:shadow-lg hover:shadow-accent-purple/25 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <input type="hidden" name="form-name" value="contact" />
-              <p className="hidden">
-                <label>
-                  Don't fill this out: <input name="bot-field" />
-                </label>
-              </p>
-              <h3 className="text-xl font-display font-semibold text-white mb-6">
-                Send a Message
-              </h3>
+              <FiMail className="w-5 h-5" />
+              Say Hello
+              <FiArrowRight className="w-5 h-5" />
+            </motion.a>
+          </div>
+        </motion.div>
 
-              <div className="space-y-5">
-                {/* Name Input */}
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-dark-400 mb-2"
-                  >
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="John Doe"
-                    className="input"
-                    required
-                  />
+        {/* Contact Methods Grid */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {contactMethods.map((method, index) => {
+            const colors = colorClasses[method.color];
+            return (
+              <motion.a
+                key={method.title}
+                href={method.href}
+                target={method.href.startsWith("mailto") ? undefined : "_blank"}
+                rel={method.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                className={`group card card-hover ${colors.border} ${colors.glow} hover:shadow-xl text-center`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className={`w-14 h-14 mx-auto mb-4 rounded-xl ${colors.bg} flex items-center justify-center`}>
+                  <method.icon className={`w-7 h-7 ${colors.text}`} />
                 </div>
-
-                {/* Email Input */}
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-dark-400 mb-2"
-                  >
-                    Your Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="john@example.com"
-                    className="input"
-                    required
-                  />
-                </div>
-
-                {/* Message Input */}
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-dark-400 mb-2"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell me about your project or opportunity..."
-                    className="textarea"
-                    required
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-full"
-                  icon={FiSend}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </Button>
-
-                {/* Submit Status */}
-                {submitStatus === "success" && (
-                  <motion.p
-                    className="text-center text-green-400 text-sm"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    Message sent successfully! I'll get back to you soon.
-                  </motion.p>
-                )}
-                {submitStatus === "error" && (
-                  <motion.p
-                    className="text-center text-red-400 text-sm"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    Something went wrong. Please try again or email me directly.
-                  </motion.p>
-                )}
-              </div>
-            </form>
-          </motion.div>
+                
+                <h4 className="text-lg font-display font-semibold text-white mb-2 group-hover:gradient-text transition-all duration-300">
+                  {method.title}
+                </h4>
+                <p className="text-dark-500 text-sm mb-3">
+                  {method.description}
+                </p>
+                <span className={`text-sm font-medium ${colors.text} inline-flex items-center gap-1`}>
+                  {method.value}
+                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </motion.a>
+            );
+          })}
         </div>
+
+        {/* Bottom Quote */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.8 }}
+        >
+          <p className="text-dark-500 text-sm flex items-center justify-center gap-2">
+            <FiCoffee className="w-4 h-4" />
+            Always open to grab a virtual coffee and chat
+          </p>
+        </motion.div>
       </div>
     </SectionWrapper>
   );
