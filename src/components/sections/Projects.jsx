@@ -111,18 +111,20 @@ const ProjectCard = ({ project, index }) => {
           ))}
         </div>
 
-        {/* Action Link */}
-        <motion.a
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-sm font-medium text-dark-400 hover:text-white transition-colors group/link"
-        >
-          View Project
-          <motion.span className="group-hover/link:translate-x-1 transition-transform">
-            <FiArrowRight className="w-4 h-4" />
-          </motion.span>
-        </motion.a>
+        {/* Action Link - Only show if demo exists */}
+        {project.demo && (
+          <motion.a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-dark-400 hover:text-white transition-colors group/link"
+          >
+            Live Demo
+            <motion.span className="group-hover/link:translate-x-1 transition-transform">
+              <FiArrowRight className="w-4 h-4" />
+            </motion.span>
+          </motion.a>
+        )}
       </div>
 
       {/* Hover Border Effect */}
