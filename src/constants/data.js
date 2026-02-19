@@ -67,7 +67,7 @@ export const PROJECTS = [
     id: 3,
     title: "E-commerce Platform",
     description:
-      "A full-stack e-commerce application with a .NET Core backend and React frontend.Username: Test Password: Test123 to login as admin and manage products, categories, and orders.  Integrated JWT for authentication.",
+      "A full-stack e-commerce application with a .NET Core backend and React frontend.Username: Test | Password: Test123 | to login and test around.  Integrated JWT for authentication.",
     tech: [".NET Core", "React", "MySQL", "Stripe API", "JWT Authentication"],
     github: "https://github.com/Edi12M/onlineShop",
     demo: "https://e-commerce-by-emehaj.netlify.app/",
