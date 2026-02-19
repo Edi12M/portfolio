@@ -67,10 +67,10 @@ export const PROJECTS = [
     id: 3,
     title: "E-commerce Platform",
     description:
-      "A full-stack e-commerce application with a .NET Core backend and React frontend. Implements product management, shopping cart, and secure checkout with Stripe integration.",
+      "A full-stack e-commerce application with a .NET Core backend and React frontend.Username: Test Password: Test123 to login as admin and manage products, categories, and orders.  Integrated JWT for authentication.",
     tech: [".NET Core", "React", "MySQL", "Stripe API", "JWT Authentication"],
     github: "https://github.com/Edi12M/onlineShop",
-    demo: null,
+    demo: "https://e-commerce-by-emehaj.netlify.app/",
     featured: true,
     color: "pink",
   },

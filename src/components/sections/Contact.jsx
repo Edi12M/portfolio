@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
-import { FiMail, FiGithub, FiLinkedin, FiArrowRight, FiCoffee, FiMessageCircle } from "react-icons/fi";
+import {
+  FiMail,
+  FiGithub,
+  FiLinkedin,
+  FiArrowRight,
+  FiCoffee,
+  FiMessageCircle,
+} from "react-icons/fi";
 import SectionWrapper from "../ui/SectionWrapper";
 import { useInView } from "../../hooks/useAnimations";
 import { PERSONAL_INFO } from "../../constants/data";
@@ -78,8 +85,8 @@ const Contact = () => {
             <span className="gradient-text">Connect</span>
           </h2>
           <p className="section-subtitle mx-auto mt-4">
-            I'm currently looking for internship and junior developer opportunities.
-            Feel free to reach out!
+            I'm currently looking for internship and junior developer
+            opportunities. Feel free to reach out!
           </p>
         </motion.div>
 
@@ -92,7 +99,7 @@ const Contact = () => {
         >
           {/* Background gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-accent-purple/10 via-transparent to-accent-cyan/10" />
-          
+
           <div className="relative z-10">
             <motion.div
               className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-accent-purple to-accent-cyan flex items-center justify-center"
@@ -102,15 +109,16 @@ const Contact = () => {
             >
               <FiMessageCircle className="w-10 h-10 text-white" />
             </motion.div>
-            
+
             <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-4">
               Have a project in mind?
             </h3>
             <p className="text-dark-400 max-w-lg mx-auto mb-8">
-              I'm always excited to work on new challenges. Whether it's an internship,
-              a junior position, or a collaboration opportunity — let's talk!
+              I'm always excited to work on new challenges. Whether it's an
+              internship, a junior position, or a collaboration opportunity —
+              let's talk!
             </p>
-            
+
             <motion.a
               href={`mailto:${PERSONAL_INFO.email}`}
               className="inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-accent-purple to-accent-cyan hover:shadow-lg hover:shadow-accent-purple/25 transition-all duration-300"
@@ -133,24 +141,32 @@ const Contact = () => {
                 key={method.title}
                 href={method.href}
                 target={method.href.startsWith("mailto") ? undefined : "_blank"}
-                rel={method.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                rel={
+                  method.href.startsWith("mailto")
+                    ? undefined
+                    : "noopener noreferrer"
+                }
                 className={`group card card-hover ${colors.border} ${colors.glow} hover:shadow-xl text-center`}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                 whileHover={{ y: -5 }}
               >
-                <div className={`w-14 h-14 mx-auto mb-4 rounded-xl ${colors.bg} flex items-center justify-center`}>
+                <div
+                  className={`w-14 h-14 mx-auto mb-4 rounded-xl ${colors.bg} flex items-center justify-center`}
+                >
                   <method.icon className={`w-7 h-7 ${colors.text}`} />
                 </div>
-                
+
                 <h4 className="text-lg font-display font-semibold text-white mb-2 group-hover:gradient-text transition-all duration-300">
                   {method.title}
                 </h4>
                 <p className="text-dark-500 text-sm mb-3">
                   {method.description}
                 </p>
-                <span className={`text-sm font-medium ${colors.text} inline-flex items-center gap-1`}>
+                <span
+                  className={`text-sm font-medium ${colors.text} inline-flex items-center gap-1`}
+                >
                   {method.value}
                   <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
