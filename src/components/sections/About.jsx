@@ -17,9 +17,9 @@ const About = () => {
     },
     {
       icon: FiDatabase,
-      title: "Database Design",
+      title: "AI & Data Systems",
       description:
-        "Optimizing data structures and queries for maximum performance",
+        "Building data-driven applications and integrating machine learning models",
       color: "cyan",
     },
     {
@@ -118,7 +118,7 @@ const About = () => {
               transition={{ delay: 0.6 }}
             >
               {[
-                { value: "3+", label: "Projects" },
+                { value: "6+", label: "Projects" },
                 { value: "5+", label: "Technologies" },
                 { value: "100%", label: "Passion" },
               ].map((stat, index) => (

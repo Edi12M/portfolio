@@ -118,7 +118,7 @@ const Hero = () => {
           variants={itemVariants}
           className="flex flex-wrap justify-center gap-3"
         >
-          {[".NET", "MySQL", "React", "REST APIs", "C#"].map((tech, index) => (
+          {["AI","CNN","Data Mining",".NET", "MySQL", "React", "REST APIs", "C#"].map((tech, index) => (
             <motion.span
               key={tech}
               className="badge"

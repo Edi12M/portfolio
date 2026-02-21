@@ -25,6 +25,7 @@ export const ABOUT_TEXT = {
   title: "About Me",
   description: `I am a Computer Engineer with a strong foundation in backend development and a growing focus on data and AI systems. I build scalable backend architectures while leveraging data analysis and intelligent models to create reliable, real-world applications. My goal is to design systems that are both technically robust and data-driven.`,
   highlights: [
+    "AI-powered application development and machine learning integration",
     "Designing scalable REST APIs and backend systems",
     "Data analysis and intelligent application development",
     "Database modeling, optimization, and SQL proficiency",
